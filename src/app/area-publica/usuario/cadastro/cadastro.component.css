@@ -1,0 +1,2 @@
+.centralizar { display: flex; flex-direction: row; justify-content: center; align-items: center }
+.box-login{ background-color: #FFF; padding: 8%; border-radius: 10px; margin-top: 50%;}
