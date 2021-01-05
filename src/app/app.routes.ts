@@ -1,5 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { CadastrarAtendimentoComponent } from './area-privada/atendimento/cadastrar/cadastrar-atendimento.component';
+import { CadastrarClienteComponent } from './area-privada/cliente/cadastrar/cadastrar-cliente.component';
 import { CadastrarProcedimentoComponent } from './area-privada/procedimento/cadastrar/cadastrar-procedimento.component';
 import { LoginComponent } from './area-publica/login/login.component';
 import { CadastroComponent } from './area-publica/usuario/cadastro/cadastro-compoent';
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
     
     // AREA LOGADA / COMUM
     { path: 'atendimento/novo', component: CadastrarAtendimentoComponent, canActivate: [SampleGuard] },
+    { path: 'cliente/novo', component: CadastrarClienteComponent, canActivate: [SampleGuard] },
     
     { path: '**', redirectTo: 'login' },
 ];

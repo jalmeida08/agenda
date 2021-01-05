@@ -5,11 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { CadastrarProcedimentoComponent } from './procedimento/cadastrar/cadastrar-procedimento.component';
 import { CadastrarAtendimentoComponent } from './atendimento/cadastrar/cadastrar-atendimento.component'; 
+import { CadastrarClienteComponent } from './cliente/cadastrar/cadastrar-cliente.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
     declarations: [
         CadastrarProcedimentoComponent,
-        CadastrarAtendimentoComponent
+        CadastrarAtendimentoComponent,
+        CadastrarClienteComponent,
+        HomePageComponent,
     ],
     imports: [ 
         CommonModule,
@@ -19,6 +23,8 @@ import { CadastrarAtendimentoComponent } from './atendimento/cadastrar/cadastrar
     exports: [
         CadastrarProcedimentoComponent,
         CadastrarAtendimentoComponent,
+        CadastrarClienteComponent,
+        HomePageComponent,
     ],
     providers: [
         AreaPrivadaService
