@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-sm">
+        <form (submit)="salvar()">
+             <div class="form-group">
+                <label for="nomeProcedimento" class="form-label">Nome do procedimento</label>
+                <input type="text" class="form-control" id="nomeProcedimento" name="nome" [(ngModel)]="procedimento.nome">
+            </div>
+            
+             <div class="form-group">
+                <label for="valorProcedimento" class="form-label">Valor do procedimento</label>
+                <input type="text" class="form-control" id="valorProcedimento" name="valor" [(ngModel)]="procedimento.valor">
+            </div>
+            <div class="direita">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>

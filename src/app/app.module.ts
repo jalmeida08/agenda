@@ -8,11 +8,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { routing } from './app.routes';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SampleGuard } from './_data/SampleGuard';
 import { DataService } from './services/data.service';
 import { Interceptor } from './_data/Interceptor.interceptor';
 import { AlertaModule } from '../app/_diretiva/alerta/alerta.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import{ AreaPublicaModule } from "../app/area-publica/area-publica.module";
+import { AreaPublicaModule } from "../app/area-publica/area-publica.module";
 import { AreaPrivadaModule } from './area-privada/area-privada.module';
 
 @NgModule({
@@ -34,7 +35,10 @@ import { AreaPrivadaModule } from './area-privada/area-privada.module';
     AreaPublicaModule,
     AreaPrivadaModule,
   ],
-  providers: [DataService],
+  providers: [
+    DataService,
+    SampleGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

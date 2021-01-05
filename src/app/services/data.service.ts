@@ -1,28 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Usuario } from '../_model/Usuario';
 import { Alerta } from '../_diretiva/alerta/alerta';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class DataService {    
 
     public alertas: Array<Alerta> = new Array<Alerta>();
-    private rotasAreaPublica: Array<string> = new Array("", "novo-usuario", "habilitar-cadastro-usuario");
 
     constructor(private _router: Router) {}
 
-    public verificarSessao(): void{
+    public verificarSessao(): boolean{
         let usrAgPollyStudio   = localStorage.getItem('usrAgPollyStudio');
         let tkAgPollyStudio    = localStorage.getItem('tkAgPollyStudio');
         let usrIdAgPollyStudio = localStorage.getItem('usrIdAgPollyStudio');
         
         
-        if(!usrAgPollyStudio || !tkAgPollyStudio || !usrIdAgPollyStudio ){
-            if(this.rotasAreaPublica.indexOf(this._router.url.split("/")[1]) < 0){
-                this._router.navigate(['']);
-                return;
-            }
-        }
+        if(!usrAgPollyStudio || !tkAgPollyStudio || !usrIdAgPollyStudio )
+            return false;
+        else
+            return true;
     }
 
     public registrarSessao(usuario: Usuario): void {

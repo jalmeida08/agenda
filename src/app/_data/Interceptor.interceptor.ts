@@ -39,7 +39,7 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
         ++this._requests;
         this._status.setHttpStatus(true);
         
-        this._dataService.verificarSessao();
+        // this._dataService.verificarSessao();
         const token = 'Bearer#'.concat(this._dataService.montarTokenSessao());
         
         let dupReq = req.clone({
@@ -65,7 +65,7 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
                     console.log("401");
                     this._dataService.limparMensagens();
                     this._dataService.alerta("Usuário não autenticado", "warning", "Alerta!")
-                    this._router.navigate(['']);
+                    this._router.navigate(['login']);
                 }
                 return throwError(error);
             }),

@@ -15,9 +15,11 @@ export class AppComponent {
   public alertas: Array<Alerta> = new Array<Alerta>();
 
 	constructor(private httpStatus: HTTPStatus, private spinner: NgxSpinnerService, private _dataService: DataService) {
+		
 		this.httpStatus.getHttpStatus().subscribe((status: boolean) => {
 			if (status) {
 				spinner.show();
+				
 			} else {
 				spinner.hide();
 				this.mensagens();
@@ -28,4 +30,5 @@ export class AppComponent {
 	private mensagens(){
 		this.alertas = this._dataService.alertas;
 	}
+
 }

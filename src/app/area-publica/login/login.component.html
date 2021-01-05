@@ -3,12 +3,12 @@
         <form class="" (submit)="salvar()">
             <div class="form-group">
                 <label for="nome">E-mail / Usuário</label>
-                <input type="text" class="form-control" id="emailUsuario" name="emailUsuario" aria-describedby="emailUsuario" [(ngModel)]="emailUsuario" placeholder="Email ou Usuário">
+                <input type="text" class="form-control" id="emailUsuario" name="emailUsuario" aria-describedby="emailUsuario" [(ngModel)]="objetoLogin.emailUsuario" placeholder="Email ou Usuário">
             </div>
     
             <div class="form-group">
                 <label for="email">Senha</label>
-                <input type="password" class="form-control"  id="senha" name="senha" aria-describedby="senha" placeholder="******" [(ngModel)]="senha">
+                <input type="password" class="form-control"  id="senha" name="senha" aria-describedby="senha" placeholder="******" [(ngModel)]="objetoLogin.senha">
             </div>
             
             <div class="direita">
