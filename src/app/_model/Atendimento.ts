@@ -1,5 +1,6 @@
 import { EstadoAtendimento } from "./EstadoAtendimento";
 import { Pessoa } from './Pessoa';
+import { Procedimento } from "./Procedimento";
 
 export class Atendimento {
     public id: number;
@@ -10,4 +11,5 @@ export class Atendimento {
     public dataAgendamento: Date;
     public versao: number;
     public pessoa: Array<Pessoa> = new Array<Pessoa>();
+    public procedimento: Array<Procedimento> = new Array<Procedimento>();
 }

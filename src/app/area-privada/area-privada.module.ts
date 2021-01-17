@@ -7,6 +7,9 @@ import { CadastrarProcedimentoComponent } from './procedimento/cadastrar/cadastr
 import { CadastrarAtendimentoComponent } from './atendimento/cadastrar/cadastrar-atendimento.component'; 
 import { CadastrarClienteComponent } from './cliente/cadastrar/cadastrar-cliente.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { CalendarioModule } from '../_diretiva/calendario/calendario.module';
+import { CalendarioHomeModule } from '../_diretiva/home-calendario/calendario-home.module';
+import { BuscarClienteComponent } from './cliente/modal-buscar-cliente/buscar-cliente.component';
 
 @NgModule({
     declarations: [
@@ -14,17 +17,21 @@ import { HomePageComponent } from './home-page/home-page.component';
         CadastrarAtendimentoComponent,
         CadastrarClienteComponent,
         HomePageComponent,
+        BuscarClienteComponent,
     ],
     imports: [ 
         CommonModule,
         BrowserModule,
-        FormsModule
+        FormsModule,
+        CalendarioModule,
+        CalendarioHomeModule,
     ],
     exports: [
         CadastrarProcedimentoComponent,
         CadastrarAtendimentoComponent,
         CadastrarClienteComponent,
         HomePageComponent,
+        BuscarClienteComponent,
     ],
     providers: [
         AreaPrivadaService

@@ -1,1 +1,129 @@
-NOVO ATENDIMENTO
+<div class="row">
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-12 header-agendamento">
+                <span>Agendamento</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 body-agendamento">
+                <div class="titulo-item">
+                    <span>Dados do cliente</span>
+                    <div style="text-align: right; float: right;">
+                        <a (click)="abrirModal('#modalBuscarCliente')" >Buscar</a>
+                    </div>
+                </div>
+                <div class="cliente-agendamento">
+                    <div class="col-sm-12">
+                        <span class="label">Cliente: </span>
+                        <span>{{ cliente.nome }}</span>
+                    </div>
+                    <div class="col-sm-12">
+                        <span class="label">Data de nascimento: </span> 
+                        <span>{{ cliente.dataNascimento | date: 'dd/MM/yyyy'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 body-agendamento">
+                <div class="titulo-item">
+                    <span>Data e hora</span>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <app-calendario (emitterEnviarDiaSelecionado)="receberDiaSelecionado($event)"></app-calendario>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="nome">Hora</label>
+                            <input type="time" class="form-control" id="hora" name="hora"  placeholder="Email ou Usuário">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 body-agendamento">
+                <div class="titulo-item">
+                    <span>Procedimento</span>
+                    <div style="text-align: right; float: right;">
+                        <a (click)="abrirModal('modalSelecaoProcedimento')" >Adicionar</a>
+                    </div>
+                </div>
+                <div class="row" *ngIf="mostrarListaProcedimentosSelecionados">
+                    <div class="col-sm-12">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Procedimento</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listaProcedimentoSelecionado" (click)="selecionarProcedimento(item)">
+                                    <td>{{ item.nome }}</td>
+                                    <td>{{ item.valor }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total</td>
+                                    <td>{{ calcularValorTotalProcedimentos() }}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-6">
+    </div>
+
+</div>
+
+<app-buscar-cliente (emitterEnviarCliente)="receberCliente($event)" ></app-buscar-cliente>
+
+<!-- MODAL PARA SELECIONAR O PROCEDIMENTO -->
+<div class="modal fade" id="modalSelecaoProcedimento" tabindex="-1" role="dialog" aria-labelledby="modalSelecaoProcedimento"
+	aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSelecaoProcedimento">Selecionar Procedimento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Procedimento</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listaProcedimento" (click)="selecionarProcedimento(item)">
+                                <td><input type="checkbox" value="{{item.nome}}" id="{{item.nome}}" [checked]="listaProcedimentoSelecionado.indexOf(procedimento)>=0"></td>
+                                <td>{{ item.nome }}</td>
+                                <td>{{ item.valor }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+
+                <div class="modal-footer">
+                    <div class="direita">
+                        <button type="button" class="btn btn-primary"  (click)="fecharModal('modalSelecaoProcedimento');">Selecionar procedimento</button>
+                        <button type="button" class="btn btn-default" (click)="fecharModal('modalSelecaoProcedimento');">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

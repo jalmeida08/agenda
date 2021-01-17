@@ -37,4 +37,16 @@ export class AreaPrivadaService {
             .pipe( map( res => { return res; }) );
     }
 
+    public listarAtendimentoDia(): Observable<any>{
+        return this._http
+            .get(`${urlBase.url}/atendimento/atendimentos-dia-atual`)
+            .pipe( map( res => { return res; }) );
+    }
+
+    public buscarCliente(cliente: Cliente): Observable<any> {
+        return this._http
+            .post(`${urlBase.url}/cliente/buscar-cliente`, cliente)
+            .pipe( map( res => { return res; }) );
+    }
+
 }

@@ -1,3 +1,4 @@
+import { Atendimento } from './Atendimento';
 
 export class EstadoAtendimento {
     public nome: string;

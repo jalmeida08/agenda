@@ -1,0 +1,16 @@
+<main>
+    <div class="calendar">
+        <div class="titulo-mes">
+            <time datetime="2020-01">{{ nomeMes }} {{ ano }}</time>
+        </div>
+        <div class="dias-semana">
+            <div *ngFor="let item of arrayDiasSemana">{{item}}</div>
+        </div>
+        <div class="date-grid" >
+            <button *ngFor="let dia of arrayDiasMes" [ngClass]="diaInitCalendar" [ngStyle]="verificarEstilo(dia)" (click)="selecionarDia(dia)">
+                <time datetime="arrayDiasMes" >{{ dia | date:'dd' }}</time>
+            </button>
+            
+        </div>
+    </div>
+</main>

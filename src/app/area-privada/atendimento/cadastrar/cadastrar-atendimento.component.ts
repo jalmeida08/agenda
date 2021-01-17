@@ -3,16 +3,25 @@ import { DataService } from 'src/app/services/data.service';
 import { Procedimento } from 'src/app/_model/Procedimento';
 import { AreaPrivadaService } from '../../area-privada.service';
 import { EstadoAtendimento } from '../../../_model/EstadoAtendimento';
+import { Cliente } from 'src/app/_model/Cliente';
+import { Atendimento } from 'src/app/_model/Atendimento';
+declare var $: any;
 
 @Component({
-    selector: 'cadastrarAtendimento',
+    selector: 'app-cadastrarAtendimento',
     templateUrl: './cadastrar-atendimento.component.html',
-    styleUrls: []
+    styleUrls: ['./cadastrar-atendimento.component.css']
 })
 export class CadastrarAtendimentoComponent implements OnInit {
 
     public listaProcedimento: Array<Procedimento> = new Array<Procedimento>();
+    public listaProcedimentoSelecionado: Array<Procedimento> = new Array<Procedimento>();
     public listaEstadoAtendimento: Array<EstadoAtendimento> = new Array<EstadoAtendimento>();
+    public procedimento: Procedimento = new Procedimento();
+    public atendimento: Atendimento = new Atendimento();
+    public cliente: Cliente = new Cliente();
+    public nomeDataNascimentoCliente: string;
+    public mostrarListaProcedimentosSelecionados:boolean = false;
 
     constructor(
         private _areaPrivadaService: AreaPrivadaService,
@@ -32,12 +41,55 @@ export class CadastrarAtendimentoComponent implements OnInit {
             })
     }
 
+    public receberDiaSelecionado(dataSelecionada: Date){
+        this._areaPrivadaService
+        .listarAtendimentoDia()
+        .subscribe(res => {
+            console.log(res);
+        }, error => {
+            console.error(error);
+        })
+    }
+    public abrirModal(idModal){
+        $('#'+idModal).modal('show');
 
+    }
+    public fecharModal(idModal){
+        $('#'+idModal).modal('hide');
+
+        if(idModal === 'modalSelecaoProcedimento')
+            this.mostrarListaProcedimentosSelecionados = true;
+    }
+
+    public receberCliente(cliente:Cliente){
+        this.cliente = cliente;
+        $('#modalBuscarCliente').modal('hide');
+    }
+
+
+    public selecionarProcedimento(procedimento:Procedimento){
+        if(this.listaProcedimentoSelecionado.indexOf(procedimento) >= 0){
+            let index = this.listaProcedimentoSelecionado.indexOf(procedimento);
+            let novoArray = this.listaProcedimentoSelecionado.slice(index);
+            this.listaProcedimentoSelecionado = novoArray;
+        } else
+            this.listaProcedimentoSelecionado.push(procedimento);
+    }
+    
+    public calcularValorTotalProcedimentos(){
+        let total = 0;
+        this.listaProcedimentoSelecionado.forEach((item) => {
+             total = total+item.valor;
+        });
+        return total;
+    }
+    
     private listaTodosProcedimento(){
         this._areaPrivadaService
             .listaProcedimento()
             .subscribe(res => {
                 this.listaProcedimento = res;
+                console.log(res);
             }, error => {
                 console.error(error);
             });

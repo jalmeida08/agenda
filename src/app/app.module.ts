@@ -15,6 +15,7 @@ import { AlertaModule } from '../app/_diretiva/alerta/alerta.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AreaPublicaModule } from "../app/area-publica/area-publica.module";
 import { AreaPrivadaModule } from './area-privada/area-privada.module';
+import { CalendarioModule } from './_diretiva/calendario/calendario.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AreaPrivadaModule } from './area-privada/area-privada.module';
     routing,
     Interceptor,
     AlertaModule,
+    CalendarioModule,
 
     AreaPublicaModule,
     AreaPrivadaModule,
