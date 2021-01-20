@@ -22,6 +22,8 @@ export class CadastrarAtendimentoComponent implements OnInit {
     public cliente: Cliente = new Cliente();
     public nomeDataNascimentoCliente: string;
     public mostrarListaProcedimentosSelecionados:boolean = false;
+    public dataAgendamento: Date;
+    public horaAgendamento: string;
 
     constructor(
         private _areaPrivadaService: AreaPrivadaService,
@@ -42,6 +44,7 @@ export class CadastrarAtendimentoComponent implements OnInit {
     }
 
     public receberDiaSelecionado(dataSelecionada: Date){
+        this.dataAgendamento = dataSelecionada;
         this._areaPrivadaService
         .listarAtendimentoDia()
         .subscribe(res => {
@@ -68,12 +71,17 @@ export class CadastrarAtendimentoComponent implements OnInit {
 
 
     public selecionarProcedimento(procedimento:Procedimento){
-        if(this.listaProcedimentoSelecionado.indexOf(procedimento) >= 0){
-            let index = this.listaProcedimentoSelecionado.indexOf(procedimento);
-            let novoArray = this.listaProcedimentoSelecionado.slice(index);
-            this.listaProcedimentoSelecionado = novoArray;
-        } else
-            this.listaProcedimentoSelecionado.push(procedimento);
+        let index = this.listaProcedimentoSelecionado.indexOf(procedimento);
+        if(index >= 0)
+            this.listaProcedimentoSelecionado.splice(index,1);
+        else
+            this.listaProcedimentoSelecionado.push(procedimento);        
+    }
+
+    public removerProcedimento(item: Procedimento){
+        let index = this.listaProcedimentoSelecionado.indexOf(item);
+        if(index >= 0)
+            this.listaProcedimentoSelecionado.splice(index, 1);
     }
     
     public calcularValorTotalProcedimentos(){

@@ -10,7 +10,7 @@
                 <div class="titulo-item">
                     <span>Dados do cliente</span>
                     <div style="text-align: right; float: right;">
-                        <a (click)="abrirModal('#modalBuscarCliente')" >Buscar</a>
+                        <a (click)="abrirModal('modalBuscarCliente')" >Buscar</a>
                     </div>
                 </div>
                 <div class="cliente-agendamento">
@@ -32,12 +32,26 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-8">
-                        <app-calendario (emitterEnviarDiaSelecionado)="receberDiaSelecionado($event)"></app-calendario>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <app-calendario (emitterEnviarDiaSelecionado)="receberDiaSelecionado($event)"></app-calendario>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-group">
-                            <label for="nome">Hora</label>
-                            <input type="time" class="form-control" id="hora" name="hora"  placeholder="Email ou Usuário">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="nome">Hora</label>
+                                    <input type="time" class="form-control" id="hora" name="hora" [(ngModel)]="horaAgendamento">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ dataAgendamento | date: 'dd/MM/yyyy'}}
+                                {{ horaAgendamento }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -58,22 +72,32 @@
                                 <tr>
                                     <th>Procedimento</th>
                                     <th>Valor</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of listaProcedimentoSelecionado" (click)="selecionarProcedimento(item)">
+                                <tr *ngFor="let item of listaProcedimentoSelecionado">
                                     <td>{{ item.nome }}</td>
                                     <td>{{ item.valor }}</td>
+                                    <td (click)="removerProcedimento(item)"><span class="material-icons">delete</span></td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td>Total</td>
-                                    <td>{{ calcularValorTotalProcedimentos() }}</td>
+                                    <td style="font-weight: bold;">Total</td>
+                                    <td style="font-weight: bold;">{{ calcularValorTotalProcedimentos() }}</td>
+                                    <td></td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 footer-agendamento">
+                <div class="direita">
+                    <button class="btn btn-primary" type="button">Salvar</button>
                 </div>
             </div>
         </div>
@@ -108,8 +132,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of listaProcedimento" (click)="selecionarProcedimento(item)">
-                                <td><input type="checkbox" value="{{item.nome}}" id="{{item.nome}}" [checked]="listaProcedimentoSelecionado.indexOf(procedimento)>=0"></td>
+                            <tr *ngFor="let item of listaProcedimento">
+                                <td><input type="checkbox" value="{{item.nome}}" id="{{item.nome}}" [checked]="listaProcedimentoSelecionado.indexOf(item)>=0" (click)="selecionarProcedimento(item)"/></td>
                                 <td>{{ item.nome }}</td>
                                 <td>{{ item.valor }}</td>
                             </tr>
