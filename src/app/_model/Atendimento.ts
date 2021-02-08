@@ -6,7 +6,7 @@ export class Atendimento {
     public id: number;
     public estadoAtendimento: EstadoAtendimento = new EstadoAtendimento();
     public valorTotal: number;
-    public esconto: number;
+    public desconto: number;
     public dataAtendimento: Date;
     public dataAgendamento: Date;
     public versao: number;

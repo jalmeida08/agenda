@@ -103,6 +103,28 @@ export class CadastrarAtendimentoComponent implements OnInit {
             });
     }
 
+    public salvar(){
+        let numberHora:number = Number.parseInt(this.horaAgendamento.split(":")[0]);
+        let numberMin:number = Number.parseInt(this.horaAgendamento.split(":")[1]);
+        this.atendimento.pessoa.push(this.cliente);
+        this.atendimento.procedimento = this.listaProcedimentoSelecionado;
+        this.atendimento.dataAgendamento = this.dataAgendamento;
+        this.atendimento.dataAtendimento = new Date();
+        this.atendimento.dataAgendamento.setHours(numberHora, numberMin);
+        this.atendimento.valorTotal = this.calcularValorTotalProcedimentos();
+        console.log(this.atendimento);
+        this._areaPrivadaService
+            .salvarAtendimento(this.atendimento)
+            .subscribe(res => {
+                console.log(res);
+            }, error => {
+                console.log(error);
+                
+            })
+        
+
+    }
+
     ngOnInit(): void {
         this.listaTodosProcedimento();
         this.listaTodosEstadoAtendimento();

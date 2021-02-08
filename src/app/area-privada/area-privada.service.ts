@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { urlBase } from '../_data/urlBase';
+import { Atendimento } from '../_model/Atendimento';
 import { Cliente } from '../_model/Cliente';
 import { Procedimento } from '../_model/Procedimento';
 
@@ -47,6 +48,13 @@ export class AreaPrivadaService {
         return this._http
             .post(`${urlBase.url}/cliente/buscar-cliente`, cliente)
             .pipe( map( res => { return res; }) );
+    }
+
+    public salvarAtendimento(atendimento: Atendimento): Observable<any> {
+        return this._http
+            .post(`${urlBase.url}/atendimento/salvar`, atendimento)
+            .pipe( map( res => { return res; }) );
+
     }
 
 }

@@ -13,7 +13,7 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     
     // AREA LOGADA / ADMINISTRATIVA
-    { path: 'novo-usuario', component: CadastroComponent },
+    { path: 'novo-usuario', component: CadastroComponent},
     { path: 'habilitar-cadastro-usuario/:chave_ativacao', component: FinalizarCadastroComponent },
     { path: 'procedimento/novo', component: CadastrarProcedimentoComponent, canActivate: [SampleGuard] },
     

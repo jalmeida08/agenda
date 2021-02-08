@@ -38,6 +38,7 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
     ): Observable<HttpEvent<any>> {
         ++this._requests;
         this._status.setHttpStatus(true);
+        console.log('1');
         
         // this._dataService.verificarSessao();
         const token = 'Bearer#'.concat(this._dataService.montarTokenSessao());

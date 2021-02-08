@@ -8,8 +8,8 @@ export class SampleGuard implements CanActivate {
         private _router: Router,
         private _dataService: DataService ){  }
     canActivate() {
-        console.log("-> ", this._router.url);
-        console.log("-> ", window.location.pathname);
+        console.log("SampleGuard -> ", this._router.url);
+        console.log("SampleGuard -> ", window.location.pathname);
         if(this._dataService.verificarSessao())
             return true;
         else

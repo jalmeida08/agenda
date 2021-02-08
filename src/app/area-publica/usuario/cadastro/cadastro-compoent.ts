@@ -26,7 +26,7 @@ export class CadastroComponent implements OnInit {
         this.usuario.pessoa = this.pessoa;
         this._areaPublicaService
             .novoUsuarioAgenda(this.usuario)
-            .subscribe(() => {
+            .subscribe(res => {
                 this._dataService.alerta("Salvo com sucesso", "success", "Sucesso!");
                 this._dataService.alerta("Mandamos um link para finalizar o cadastro no e-mail solicitado", "info", "Informação");
                 this.limparVariavel();
