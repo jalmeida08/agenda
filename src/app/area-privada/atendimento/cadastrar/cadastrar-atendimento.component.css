@@ -1,5 +1,16 @@
-.header-agendamento { text-align: center; font-weight: bold; text-transform: uppercase; background-color: #f8a0d3; border-radius: 20px 20px 0px 0px; padding: 10px;}
+.titulo-pagina { text-align: center; font-size: 1.3em; font-weight: bold; text-transform: uppercase; margin-top: 1em; }
 .titulo-item { border-bottom: 2px solid #f8a0d3; border-top: 2px solid #f8a0d3; text-align: center; margin-top: .8em; margin-bottom: .8em;}
-.body-agendamento { border-left: 2px solid #f8a0d3; border-right: 2px solid #f8a0d3}
-.cliente-agendamento > div > .label { font-weight: bold;}
+.direita > button { margin: .6em; }
+
+
+.header-agendamento { text-align: center; font-weight: bold; text-transform: uppercase; }
+.label { font-weight: bold;}
 .footer-agendamento { border-left:  2px solid #f8a0d3; border-right:  2px solid #f8a0d3; border-bottom:  2px solid #f8a0d3; padding-bottom: 1em; border-radius: 0px 0px 20px 20px;}
+.lista-agenda-dia > ul { list-style: none;}
+
+/* .lista-agenda-dia > ul > li:after{content: ''; display: block; width: 100%; height: 3px; background: #6d2db0; margin: 0 auto; } */
+.lista-agenda-dia > ul > li { margin-top: 10px; background-color: #f3f3f3; padding: 5px; }
+.agenda-dia-hora > span { position: absolute; left: 25%; top: 25% }
+.agenda-dia-procedimento { font-size: .8em; text-align: right; }
+.agenda-dia-acao > span { position: absolute; left: 25%; top: 25% }
+.agenda-dia-cliente {  }

@@ -54,7 +54,12 @@ export class AreaPrivadaService {
         return this._http
             .post(`${urlBase.url}/atendimento/salvar`, atendimento)
             .pipe( map( res => { return res; }) );
+    }
 
+    public atendimentosDiaSelecionado(dataSelecionada: Date): Observable<any>{
+        return this._http
+            .post(`${urlBase.url}/atendimento/atendimentos-dia-selecionado`, dataSelecionada)
+            .pipe( map( res => { return res; }) );
     }
 
 }

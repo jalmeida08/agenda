@@ -42,6 +42,7 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
         
         // this._dataService.verificarSessao();
         const token = 'Bearer#'.concat(this._dataService.montarTokenSessao());
+        console.log(token);
         
         let dupReq = req.clone({
                 headers: req.headers
