@@ -6,7 +6,7 @@ import { AreaPrivadaService } from '../../area-privada.service';
 @Component({
     selector: 'app-buscar-cliente',
     templateUrl: './buscar-cliente.component.html',
-    styleUrls: []
+    styleUrls: ['./buscar-cliente-component.css']
 })
 export class BuscarClienteComponent implements OnInit {
 
@@ -14,11 +14,11 @@ export class BuscarClienteComponent implements OnInit {
     public listaClientes:Array<Cliente> = new Array<Cliente>();
     @Input() nomeDataNascimentoCliente: string;
     @Output() public emitterEnviarCliente = new EventEmitter();
+    @Output() public emitterfecharModal = new EventEmitter();
 
     constructor(
         private _areaPrivadaService: AreaPrivadaService,
         private _dataService: DataService
-
     ) {}
 
     public buscarCliente(){
@@ -36,8 +36,16 @@ export class BuscarClienteComponent implements OnInit {
         this.listaClientes = new Array<Cliente>();
     }
 
+    public limparCampos(){
+        this.listaClientes = new Array<Cliente>();
+        this.cliente = new Cliente();
+    }
+
+    public fecharModal(){
+        this.emitterfecharModal.emit();
+    }
+
     ngOnInit(): void {
-        console.log('Recebendo... ', this.nomeDataNascimentoCliente);
-        
+        this.limparCampos();
     }
 }

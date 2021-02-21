@@ -26,6 +26,7 @@ export class CalendarioComponent implements OnInit {
     );
     public nomeMes: string = '';
     public ano = new Date().getFullYear();
+    public dateCalendario = new Date();
     public diaInitCalendar:string = '';
     public diaSelecionado: number = 0;
     public classDiaSelecionado: object = {'outline': 'none', 'background-color': '#3ebd93', 'color': '#FFF'};
@@ -33,24 +34,33 @@ export class CalendarioComponent implements OnInit {
     public diaAtual: number = new Date().getDate();
     @Output() public emitterEnviarDiaSelecionado = new EventEmitter();
 
-    private MontarDiasMes(){
-        let date = new Date();
-        let ultimoDia = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+    private MontarDiasMes(mes: number, isAvancarMes: boolean){
+        this.arrayDiasMes = new Array<Date>();
+        let ultimoDia = 0;
+        if ( isAvancarMes === true)
+            this.dateCalendario = new Date(this.dateCalendario.getFullYear(), this.dateCalendario.getMonth()+1, this.dateCalendario.getDate());
+        else if ( isAvancarMes === false )
+            this.dateCalendario = new Date(this.dateCalendario.getFullYear(), this.dateCalendario.getMonth()-1, this.dateCalendario.getDate());
+        else 
+            this.dateCalendario = new Date(this.dateCalendario.getFullYear(), this.dateCalendario.getMonth(), this.dateCalendario.getDate());
+            
+        ultimoDia = new Date(this.dateCalendario.getFullYear(), this.dateCalendario.getMonth()+1, 0).getDate();
+        this.ano = this.dateCalendario.getFullYear();
         
         for (let i=1; i <= ultimoDia; i++){
-            this.arrayDiasMes.push(new Date(date.getFullYear(), date.getMonth(), i));
+            this.arrayDiasMes.push(new Date(this.dateCalendario.getFullYear(), this.dateCalendario.getMonth(), i));
         }
     }
 
     public verificarEstilo(dia:Date){
         if(dia.getDate() === this.diaSelecionado)
             return this.classDiaSelecionado;
-        if (dia.getDate() === new Date().getDate())
+        if (dia.getDate() === new Date().getDate() && dia.getMonth() === new Date().getMonth() && dia.getFullYear() === new Date().getFullYear())
             return this.classDiaAatual;
     }
 
     public escolherNomeMes(){
-        this.nomeMes = this.arrayNomeMes[new Date().getMonth()];
+        this.nomeMes = this.arrayNomeMes[this.dateCalendario.getMonth()];
     }
 
     public selecionarDia(diaSelecionado: Date){
@@ -61,12 +71,25 @@ export class CalendarioComponent implements OnInit {
     }
 
     public emitirDataSelecionada(diaSelecionado: Date){
-        
         this.emitterEnviarDiaSelecionado.emit(diaSelecionado);
     }
     
+    public avancarMes(){
+        let mesCalendario: number = (this.dateCalendario.getMonth()+1);
+        this.MontarDiasMes(mesCalendario+1, true);
+        this.escolherNomeMes();
+        this.verificarQualDiaSemanaDeveIniciarCalendario();
+    }
+
+    public voltarMes() {
+        let mesCalendario: number = (this.dateCalendario.getMonth()+1);
+        this.MontarDiasMes(mesCalendario-1, false);
+        this.escolherNomeMes();
+        this.verificarQualDiaSemanaDeveIniciarCalendario();
+    }
+    
     private verificarQualDiaSemanaDeveIniciarCalendario(){
-        let diaSemana = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay();
+        let diaSemana = new Date(this.dateCalendario.getFullYear(), this.dateCalendario.getMonth(), 1).getDay();
         
         switch (diaSemana) {
             case 0:
@@ -93,11 +116,10 @@ export class CalendarioComponent implements OnInit {
             default:
                 break;
         }
-        
     }
 
     ngOnInit(): void {
-        this.MontarDiasMes();
+        this.MontarDiasMes(0, undefined);
         this.escolherNomeMes();
         this.verificarQualDiaSemanaDeveIniciarCalendario();
     }

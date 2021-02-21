@@ -25,12 +25,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                {{ dataAgendamento | date: 'dd/MM/yyyy'}}
-                                {{ horaAgendamento }}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -40,8 +34,8 @@
             <div class="col-sm-12">
                 <div class="titulo-item">
                     <span>Dados do cliente</span>
-                    <div style="text-align: right; float: right;">
-                        <a (click)="abrirModal('modalBuscarCliente')" >Buscar</a>
+                    <div style="position: absolute; right: 3%; top: 15px ">
+                        <a (click)="abrirModal('modalBuscarCliente')" class="btn btn-outline-dark">Buscar Cliente</a>
                     </div>
                 </div>
                 <div class="cliente-agendamento">
@@ -66,8 +60,8 @@
             <div class="col-sm-12" >
                 <div class="titulo-item">
                     <span>Procedimento</span>
-                    <div style="text-align: right; float: right;">
-                        <a (click)="abrirModal('modalSelecaoProcedimento')" >Adicionar</a>
+                    <div style="position: absolute; right: 3%; top: 15px">
+                        <a (click)="abrirModal('modalSelecaoProcedimento')" class="btn btn-outline-dark">Adicionar</a>
                     </div>
                 </div>
                 <div class="row" *ngIf="mostrarListaProcedimentosSelecionados">
@@ -153,7 +147,7 @@
                             </tr>
                             <tr *ngIf="valorDesconto > 0">
                                 <td style="font-weight: bold;">Total final</td>
-                                <td style="font-weight: bold;">{{ calcularDesconto() }}</td>
+                                <td style="font-weight: bold;">{{ calcularDesconto(atendimento.valorTotal, valorDesconto) }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -162,7 +156,8 @@
         </div>
         
         <div class="direita">
-            <button class="btn btn-default" (click)="voltarTela()" type="button">Voltar</button>
+            <button class="btn btn-light" (click)="voltarTela()" type="button">Voltar</button>
+            <button class="btn btn-secondary" (click)="adicionarCliente()" type="button" *ngIf="telaAtual === 1">Adicionar mais um</button>
             <button class="btn btn-primary" (click)="avancarTela()" type="button">Avançar</button>
             <button class="btn btn-primary" (click)="salvar()" type="button" *ngIf="ishabilitaBtnSalvar || telaAtual === 4">Salvar</button>
         </div>
@@ -214,7 +209,7 @@
                             </div>
                         </div>
                         <div class="col-sm-1 agenda-dia-acao" >
-                            <span title="Detalhar agendamento" class="material-icons">open_in_new</span>
+                            <span title="Detalhar agendamento" class="material-icons" (click)="abrirDetalheAgendamento(a)">open_in_new</span>
                         </div>
                     </div>
                 </li>
@@ -224,158 +219,145 @@
 
 </div>
 
-<app-buscar-cliente (emitterEnviarCliente)="receberCliente($event)" ></app-buscar-cliente> 
-<!-- <div class="row">
-    <div class="col-sm-6">
-        <div class="row">
-            <div class="col-sm-12 header-agendamento">
-                <span>Agendamento</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 body-agendamento">
-                <div class="titulo-item">
-                    <span>Dados do cliente</span>
-                    <div style="text-align: right; float: right;">
-                        <a (click)="abrirModal('modalBuscarCliente')" >Buscar</a>
-                    </div>
-                </div>
-                <div class="cliente-agendamento">
-                    <div class="col-sm-12">
-                        <span class="label">Cliente: </span>
-                        <span>{{ cliente.nome }}</span>
-                    </div>
-                    <div class="col-sm-12">
-                        <span class="label">Data de nascimento: </span> 
-                        <span>{{ cliente.dataNascimento | date: 'dd/MM/yyyy'}}</span>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 body-agendamento">
-                <div class="titulo-item">
-                    <span>Data e hora</span>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <app-calendario (emitterEnviarDiaSelecionado)="receberDiaSelecionado($event)"></app-calendario>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="nome">Hora</label>
-                                    <input type="time" class="form-control" id="hora" name="hora" [(ngModel)]="horaAgendamento">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                {{ dataAgendamento | date: 'dd/MM/yyyy'}}
-                                {{ horaAgendamento }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 body-agendamento">
-                <div class="titulo-item">
-                    <span>Procedimento</span>
-                    <div style="text-align: right; float: right;">
-                        <a (click)="abrirModal('modalSelecaoProcedimento')" >Adicionar</a>
-                    </div>
-                </div>
-                <div class="row" *ngIf="mostrarListaProcedimentosSelecionados">
-                    <div class="col-sm-12">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Procedimento</th>
-                                    <th>Valor</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of listaProcedimentoSelecionado">
-                                    <td>{{ item.nome }}</td>
-                                    <td>{{ item.valor }}</td>
-                                    <td (click)="removerProcedimento(item)"><span class="material-icons">delete</span></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td style="font-weight: bold;">Total</td>
-                                    <td style="font-weight: bold;">{{ calcularValorTotalProcedimentos() }}</td>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 footer-agendamento">
-                <div class="direita">
-                    <button class="btn btn-primary" (click)="salvar()" type="button">Salvar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-sm-6">
-    </div>
-
-</div>
-
-<app-buscar-cliente (emitterEnviarCliente)="receberCliente($event)" ></app-buscar-cliente> -->
+<app-buscar-cliente (emitterEnviarCliente)="receberCliente($event)" (emitterfecharModal)="receberEventoFecharModal()"></app-buscar-cliente> 
 
 <!-- MODAL PARA SELECIONAR O PROCEDIMENTO -->
 <div class="modal fade" id="modalSelecaoProcedimento" tabindex="-1" role="dialog" aria-labelledby="modalSelecaoProcedimento"
 	aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalSelecaoProcedimento">Selecionar Procedimento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Procedimento</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of listaProcedimento">
-                                <td><input type="checkbox" value="{{item.nome}}" id="{{item.nome}}" [checked]="listaProcedimentoSelecionado.indexOf(item)>=0" (click)="selecionarProcedimento(item)"/></td>
-                                <td>{{ item.nome }}</td>
-                                <td>{{ item.valor }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-
-                <div class="modal-footer">
-                    <div class="direita">
-                        <button type="button" class="btn btn-primary"  (click)="fecharModal('modalSelecaoProcedimento');">Selecionar procedimento</button>
-                        <button type="button" class="btn btn-default" (click)="fecharModal('modalSelecaoProcedimento');">Fechar</button>
-                    </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalSelecaoProcedimento">Selecionar Procedimento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Procedimento</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listaProcedimento">
+                            <td><input type="checkbox" value="{{item.nome}}" id="{{item.nome}}" [checked]="listaProcedimentoSelecionado.indexOf(item)>=0" (click)="selecionarProcedimento(item)"/></td>
+                            <td>{{ item.nome }}</td>
+                            <td>{{ item.valor }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="direita">
+                    <button type="button" class="btn btn-primary"  (click)="fecharModal('modalSelecaoProcedimento');">Selecionar procedimento</button>
+                    <button type="button" class="btn btn-light" (click)="fecharModal('modalSelecaoProcedimento');">Fechar</button>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- MODAL DTALHAR O PEDIDO -->
+<div class="modal fade" id="modalDetalheAtendimento" tabindex="-1" role="dialog" aria-labelledby="modalDetalheAtendimento"
+	aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetalheAtendimento">Atendimento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div *ngFor="let pessoa of atendimentoASerDetalhado.pessoa">
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-sm" style="text-align: center; text-transform: uppercase; font-weight: bold;">
+                                    <span>Dados do Cliente</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <span class="label">Nome:</span>
+                                    <span> {{ pessoa.nome }} </span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="label">Data de Nascimento:</span>
+                                    <span> {{ pessoa.dataNascimento | date: 'dd/MM/yyyy'}} </span>
+                                </div>
+                            </div>
+                            <div class="row" *ngFor="let telefone of pessoa.contato.telefone">
+                                <div class="col-sm-12">
+                                    <span class="label">Telefone:</span>
+                                    <span> ({{ telefone.ddd }}) {{ telefone.numero }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-sm-12">
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-sm-12" style="text-align: center; text-transform: uppercase; font-weight: bold;">
+                                <span>Dados do atendimento</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <span class="label">Status:</span>
+                                <span> {{ atendimentoASerDetalhado.estadoAtendimento.nome }} </span>
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="label">Data agendamento:</span>
+                                <span> {{ atendimentoASerDetalhado.dataAgendamento | date: "dd/MM/yyyy ' às ' HH:MM" }} </span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-sm-12">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Procedimento</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of atendimentoASerDetalhado.procedimento">
+                                            <td>{{ item.nome }}</td>
+                                            <td>{{ item.valor }}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr *ngIf="atendimentoASerDetalhado.desconto === 0">
+                                            <td style="font-weight: bold;">Total</td>
+                                            <td style="font-weight: bold;">{{ atendimentoASerDetalhado.valorTotal }}</td>
+                                        </tr>
+                                        <tr *ngIf="atendimentoASerDetalhado.desconto > 0">
+                                            <td style="font-weight: bold;">Total com {{atendimentoASerDetalhado.desconto}}% de desconto</td>
+                                            <td style="font-weight: bold;">{{ calcularDesconto(atendimentoASerDetalhado.valorTotal, atendimentoASerDetalhado.desconto) }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="direita">
+                    <button type="button" class="btn btn-primary"  (click)="fecharModal('modalDetalheAtendimento');">Selecionar procedimento</button>
+                    <button type="button" class="btn btn-light" (click)="fecharModal('modalDetalheAtendimento');">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -20,6 +20,7 @@ export class CadastrarAtendimentoComponent implements OnInit {
     public listaAtendimentosDoDia: Array<Atendimento> = new Array<Atendimento>();
     public procedimento: Procedimento = new Procedimento();
     public atendimento: Atendimento = new Atendimento();
+    public atendimentoASerDetalhado = new Atendimento();
     public cliente: Cliente = new Cliente();
     public nomeDataNascimentoCliente: string;
     public mostrarListaProcedimentosSelecionados:boolean = false;
@@ -57,7 +58,6 @@ export class CadastrarAtendimentoComponent implements OnInit {
         .atendimentosDiaSelecionado(diaSelecionado)
         .subscribe(res => {
              this.listaAtendimentosDoDia = res;
-            // this.popularArrayTimeLineAgendaDiaSelecionado(this.listaAtendimentosDoDia);
         }, error => {
             console.error(error);
         })
@@ -65,7 +65,6 @@ export class CadastrarAtendimentoComponent implements OnInit {
     
     public abrirModal(idModal){
         $('#'+idModal).modal('show');
-
     }
     public fecharModal(idModal){
         $('#'+idModal).modal('hide');
@@ -76,9 +75,13 @@ export class CadastrarAtendimentoComponent implements OnInit {
 
     public receberCliente(cliente:Cliente){
         this.cliente = cliente;
-        $('#modalBuscarCliente').modal('hide');
+        this.fecharModal('modalBuscarCliente');
     }
 
+    public abrirDetalheAgendamento(atendimentoDetalhado: Atendimento){
+        this.atendimentoASerDetalhado = atendimentoDetalhado;
+        this.abrirModal("modalDetalheAtendimento");
+    }
 
     public selecionarProcedimento(procedimento:Procedimento){
         let index = this.listaProcedimentoSelecionado.indexOf(procedimento);
@@ -113,7 +116,7 @@ export class CadastrarAtendimentoComponent implements OnInit {
     }
 
     public avancarTela(){
-        if(this.telaAtual === 0){
+        if(this.telaAtual === 0 && this.validarCampo()){
             this.telaAtual = 1;
             let numberHora:number = Number.parseInt(this.horaAgendamento.split(":")[0]);
             let numberMin:number = Number.parseInt(this.horaAgendamento.split(":")[1]);
@@ -122,7 +125,8 @@ export class CadastrarAtendimentoComponent implements OnInit {
             this.atendimento.dataAgendamento.setHours(numberHora, numberMin);
         } else if(this.telaAtual === 1){
             this.telaAtual = 2;
-            this.atendimento.pessoa.push(this.cliente);
+            if(this.atendimento.pessoa.indexOf(this.cliente) < 0)
+                this.atendimento.pessoa.push(this.cliente);
         }else if (this.telaAtual === 2){
             this.telaAtual = 3;
             this.atendimento.procedimento = this.listaProcedimentoSelecionado;
@@ -131,12 +135,28 @@ export class CadastrarAtendimentoComponent implements OnInit {
         }
     }
 
+    private validarCampo(): boolean{
+        if(this.telaAtual === 0){
+            if(typeof this.horaAgendamento === 'undefined' || this.horaAgendamento.length < 4){
+                this._dataService.alerta("O campo hora é d epreenchimento obrigatório", "warning", "Atenção!")
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public adicionarCliente(){
+        if(this.atendimento.pessoa.indexOf(this.cliente) < 0)
+                this.atendimento.pessoa.push(this.cliente);
+    }
+    
     public voltarTela(){
         if(this.telaAtual > 0)
             this.telaAtual--;
     }
     
     public salvar(){
+        this.atendimento.desconto = this.valorDesconto;
         this._areaPrivadaService
             .salvarAtendimento(this.atendimento)
             .subscribe(res => {
@@ -147,51 +167,14 @@ export class CadastrarAtendimentoComponent implements OnInit {
             })
     }
 
-    public calcularDesconto(){
-        let valor = Number("0."+ ('00' + this.valorDesconto).slice(-2));
-        let total = this.atendimento.valorTotal * valor;
-        return this.atendimento.valorTotal - total;
+    public calcularDesconto(valorTotal: number, desconto: number){
+        let valor = Number("0."+ ('00' + desconto).slice(-2));
+        let total = valorTotal * valor;
+        return valorTotal - total;
     }
-
-    // public popularArrayTimeLineAgendaDiaSelecionado(listaAtendimentoDia: Array<Atendimento>){
-        
-    //     this.montarArrayDefaultTimeLineHora(0,0);
-    //     let arrayHoras = new Array<number>();
-    //     let horaInicioForaDefault: number = 8;
-    //     let horaFimForaDefault: number = 18;
-    //     listaAtendimentoDia.forEach(item => {
-    //         let hora = new Date(item.dataAgendamento).getHours();
-    //         console.log(hora);
-            
-    //         if(hora < 8 && hora < horaInicioForaDefault)
-    //             horaInicioForaDefault = hora;
-
-    //         if(hora > 18 && hora > horaFimForaDefault)
-    //             horaFimForaDefault = hora;
-
-    //         this.montarArrayDefaultTimeLineHora(horaInicioForaDefault, horaFimForaDefault);
-    //     });
-        
-    //     this.arrayTimeLineAgendaDiaSelecionado.forEach(hora => {
-    //         listaAtendimentoDia.forEach(atendimento => {
-    //             if(new Date(atendimento.dataAgendamento).getHours() === hora.hora)
-    //                 hora.atendimentos.push(atendimento);
-    //         });
-    //     });
-    // }
-
-    private montarArrayDefaultTimeLineHora(horaInicioForaDefault: number, horaFimForaDefault: number){
-        this.arrayTimeLineAgendaDiaSelecionado = new Array<any>();
-        let inicio: number = horaInicioForaDefault > 0 ? horaInicioForaDefault: 8;
-        let fim: number = horaFimForaDefault > 0 ? horaFimForaDefault: 18;
-
-        for(let i= inicio; i <= fim; i++){
-            let dado = {
-                hora: i,
-                atendimentos: new Array<Atendimento>()
-            }
-            this.arrayTimeLineAgendaDiaSelecionado.push(dado);
-        }
+    
+    public receberEventoFecharModal(){
+        this.fecharModal('modalBuscarCliente');
     }
     
     ngOnInit(): void {

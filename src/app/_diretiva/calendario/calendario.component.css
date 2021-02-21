@@ -85,3 +85,7 @@ main {
 .init-calendar-sab:first-child {
   grid-column: 7;
 }
+
+.seta-calendario-direita { position: absolute; right: 15px; top: -15px; font-size: 2em }
+.seta-calendario-esquerda { position: absolute; left: 15px; top: -15px; font-size: 2em }
+.seta-calendario-direita:hover, .seta-calendario-esquerda:hover { cursor: pointer; color: rgba(0, 0, 0, .4);}

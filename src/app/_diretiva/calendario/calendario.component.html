@@ -1,7 +1,9 @@
 <main>
     <div class="calendar">
         <div class="titulo-mes">
+            <span class="seta-calendario-esquerda" (click)="voltarMes()"><</span>
             <time datetime="2020-01">{{ nomeMes }} {{ ano }}</time>
+            <span class="seta-calendario-direita" (click)="avancarMes()">></span>
         </div>
         <div class="dias-semana">
             <div *ngFor="let item of arrayDiasSemana">{{item}}</div>
